@@ -54,16 +54,8 @@ const createAccount = async (store) => {
  const {_id} = user;
  console.log(_id);
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
- _id:  
-  uuid,
-  nickname,
-  stats: {
-    rank: null,
-    kill_actual_rank: 0,
-    break_actual_rank: 0,
-    prestige: 0  
-
-  }
+  _id,
+  store
   
 });
 }
