@@ -39,7 +39,7 @@ const debugAccount = async (r) => {
       throw console.error(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A unexpected error occurred.`); 
     }
    if (result.length == 0 ) {
-     createAccount({uuid,nickname, stats: {rank: null,kill_actual_rank: 0, break_actual_rank: 0}});
+     createAccount({uuid,nickname, stats: {rank: null,kill_actual_rank: 0, break_actual_rank: 0, prestige: 0}});
      io.to(`${server_id["rankup"].serverId}`).emit("callback-info", result[0]);
      
      console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new account has been created, user: \x1b[1m${uuid}:${nickname}\x1b[0m`); 
