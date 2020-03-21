@@ -52,15 +52,21 @@ const debugAccount = async (r) => {
 const createAccount = async (store) => {
  const user =await User.create(store);
  const {_id} = user;
+ const {uuid,stats,nickname} = store;
 
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
   _id,
-  store
+  uuid,
+  nickname,
+  stats
   
 });
 console.log({
   _id,
-  store
+  uuid,
+  nickname,
+  stats
+ 
   
 });
 
