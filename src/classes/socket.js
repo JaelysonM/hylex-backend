@@ -52,12 +52,18 @@ const debugAccount = async (r) => {
 const createAccount = async (store) => {
  const user =await User.create(store);
  const {_id} = user;
- console.log(_id);
+
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
   _id,
   store
   
 });
+console.log({
+  _id,
+  store
+  
+});
+
 }
 module.exports= {
   run
