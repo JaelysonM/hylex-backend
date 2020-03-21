@@ -61,15 +61,6 @@ const createAccount = async (store) => {
   stats
   
 });
-console.log({
-  _id,
-  uuid,
-  nickname,
-  stats
- 
-  
-});
-
 }
 module.exports= {
   run
