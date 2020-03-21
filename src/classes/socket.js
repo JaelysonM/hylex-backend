@@ -11,7 +11,7 @@ const run = () => {
     const {server} = socket.handshake.query;
     var ip = socket.handshake.headers['x-forwarded-for'];
     if (ip != "181.222.158.213") {
-      console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been opened, id: \x1b[1m${socket.id}\x1b[0m`); 
+      console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been opened, id: \x1b[1m${socket.id}-Servername:${server}\x1b[0m`); 
       storage[socket.id] = {serverName: server};
       server_id[server] = {serverId: socket.id};
     }else {
