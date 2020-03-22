@@ -24,7 +24,7 @@ const run = () => {
     /* System events  */
     socket.on('require-info', r =>  loadAccount(r));
     socket.on('save-account', r =>  saveAccount(r));
-    socket.on('discord-callback', r =>   io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r));
+    socket.on('discord-callback', r =>  {console.log(r); io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r)});
 
 
     socket.on('disconnect',  () => {
