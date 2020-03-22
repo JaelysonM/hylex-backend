@@ -24,7 +24,10 @@ const run = () => {
     /* System events  */
     socket.on('require-info', r =>  loadAccount(r));
     socket.on('save-account', r =>  saveAccount(r));
-    socket.on('discord-callback', r =>  {console.log(r); io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r)});
+    socket.on('discord-callback', r =>  {
+      console.log(r); 
+      io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r)
+    });
 
 
     socket.on('disconnect',  () => {
@@ -46,7 +49,7 @@ const loadAccount = async ( {bodyDefault }) => {
          }
    if (result.length == 0 ) {
 
-    createAccount({uuid,nickname, discord: {account_id : null,account_situation: "UNLINKED",link_token: null}, stats: {rank: null,kill_actual_rank: 0, break_actual_rank: 0, prestige: 0}});
+    createAccount({uuid,nickname, token: null, discord: {account_id : null,account_situation: "UNLINKED"}, stats: {rank: null,kill_actual_rank: 0, break_actual_rank: 0, prestige: 0}});
     console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new account has been created, user: \x1b[1m${uuid}:${nickname}\x1b[0m`); 
 
    }else {
@@ -64,6 +67,7 @@ const createAccount = async (store) => {
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
   _id,
   uuid,
+  token,
   nickname,
   stats,
   discord

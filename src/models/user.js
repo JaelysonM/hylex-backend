@@ -8,6 +8,10 @@ const UserSchema = new mongoose.Schema( {
   type: String,
   required: true,
 },
+token: {
+  type: String,
+  required: false
+},
 discord: {
   account_id:  {
     type: String,
@@ -18,10 +22,6 @@ discord: {
     required: false,
 
   },
-  link_token: {
-    type: String,
-    required: false,
-  }
 
 },
  stats: {
