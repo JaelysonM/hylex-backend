@@ -12,18 +12,15 @@ discord: {
   account_id:  {
     type: String,
     required: false,
-    default: null,
   },
   account_situation: {
     type: String,
     required: false,
-    default: "UNLINKED",
 
   },
   link_token: {
     type: String,
     required: false,
-    default: null,
   }
 
 },

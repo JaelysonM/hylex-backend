@@ -28,7 +28,7 @@ const run = () => {
 
 
     socket.on('disconnect',  () => {
-      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}/Client:${storage[socket.id]}\x1b[0m has been closed.`);
+      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}/Client:${storage[socket.id].serverName}\x1b[0m has been closed.`);
     });  
   });
 }
@@ -46,7 +46,7 @@ const loadAccount = async ( {bodyDefault }) => {
          }
    if (result.length == 0 ) {
 
-    createAccount({uuid,nickname, stats: {rank: null,kill_actual_rank: 0, break_actual_rank: 0, prestige: 0}});
+    createAccount({uuid,nickname, discord: {account_id : null,account_situation: "UNLINKED",link_token: null}, stats: {rank: null,kill_actual_rank: 0, break_actual_rank: 0, prestige: 0}});
     console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new account has been created, user: \x1b[1m${uuid}:${nickname}\x1b[0m`); 
 
    }else {
