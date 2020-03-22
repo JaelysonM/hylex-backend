@@ -32,6 +32,7 @@ const run = () => {
         name_discord: r. name_discord,
         account_id: r.account_id,
       };
+      console.log(r);
       console.log(resolve);
       io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", resolve);
     });
