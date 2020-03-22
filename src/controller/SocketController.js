@@ -73,15 +73,6 @@ const createAccount = async (store) => {
   
 });
 
-console.log({
-  _id,
-  uuid,
-  token,
-  nickname,
-  stats,
-  discord
-  
-});
 }
 module.exports= {
   run
