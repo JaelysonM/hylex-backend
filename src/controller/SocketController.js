@@ -25,7 +25,6 @@ const run = () => {
     socket.on('require-info', r =>  loadAccount(r));
     socket.on('save-account', r =>  saveAccount(r));
     socket.on('discord-callback', r =>  {
-      console.log(r); 
       io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r)
     });
 
@@ -65,6 +64,16 @@ const createAccount = async (store) => {
  const { _id, uuid,nickname,stats,discord, token} = user;
 
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
+  _id,
+  uuid,
+  token,
+  nickname,
+  stats,
+  discord
+  
+});
+
+console.log({
   _id,
   uuid,
   token,
