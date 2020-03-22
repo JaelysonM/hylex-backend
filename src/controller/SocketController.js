@@ -81,6 +81,15 @@ console.log(user);
   discord
   
 });
+console.log({
+  _id,
+  uuid,
+  token,
+  nickname,
+  stats,
+  discord
+  
+});
 
 }
 module.exports= {
