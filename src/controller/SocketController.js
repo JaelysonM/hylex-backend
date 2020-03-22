@@ -26,11 +26,11 @@ const run = () => {
     socket.on('save-account', r =>  saveAccount(r));
     socket.on('discord-callback', r =>  {
 
-
+      const { uuid, name_discord,account_id} = r;
       const resolve =  {
-        uuid: r.uuid,
-        name_discord: r. name_discord,
-        account_id: r.account_id,
+        uuid,
+        name_discord,
+        account_id
       };
       console.log(r);
       console.log(resolve);
