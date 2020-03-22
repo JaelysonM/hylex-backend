@@ -32,8 +32,7 @@ const run = () => {
         name_discord,
         account_id
       };
-      console.log(r);
-      console.log(resolve);
+    
       io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", resolve);
     });
 
@@ -71,17 +70,8 @@ const loadAccount = async ( {bodyDefault }) => {
 const createAccount = async (store) => {
  const user =await User.create(store);
  const { _id, uuid,nickname,stats,discord, token} = user;
-console.log(user);
+
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
-  _id,
-  uuid,
-  token,
-  nickname,
-  stats,
-  discord
-  
-});
-console.log({
   _id,
   uuid,
   token,
