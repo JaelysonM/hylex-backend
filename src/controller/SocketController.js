@@ -26,8 +26,14 @@ const run = () => {
     socket.on('save-account', r =>  saveAccount(r));
     socket.on('discord-callback', r =>  {
 
-      console.log(r);
-      io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r)
+
+      const resolve =  {
+        uuid: r.uuid,
+        name_discord: r. name_discord,
+        account_id: r.account_id,
+      };
+      console.log(resolve);
+      io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", resolve);
     });
 
 
