@@ -1,2 +1,2 @@
-# backend-dust
-A DustShop API that integrates a Minecraft Plugin into PHP site purchases and approves them in real time with almost no delays.
+# backend-hylex
+A HylexBackend integrates a Minecraft Plugins and third-party apps; get player info with sockets, and integrates sites and third-party apps.
