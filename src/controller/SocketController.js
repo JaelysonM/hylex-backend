@@ -71,7 +71,7 @@ const loadAccount = async ( {bodyDefault }) => {
 const createAccount = async (store) => {
  const user =await User.create(store);
  const { _id, uuid,nickname,stats,discord, token} = user;
-
+console.log(user);
  io.to(`${server_id["rankup"].serverId}`).emit("callback-info", {
   _id,
   uuid,
