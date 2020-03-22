@@ -24,7 +24,7 @@ const run = () => {
     /* System events  */
     socket.on('require-info', r =>  loadAccount(r));
     socket.on('save-account', r =>  saveAccount(r));
-   
+    socket.on('discord-callback', r =>   {console.log("recebido" ); console.log(r.body);});
 
 
     socket.on('disconnect',  () => {
