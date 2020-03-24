@@ -45,8 +45,8 @@ const run = () => {
     socket.on('disconnect',  () => {
 
       console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}/Client:${storage[socket.id].serverName}\x1b[0m has been closed.`);
-      server[storage[socket.id].serverName] = {};
-      storage[socket.id] = {};
+      server[storage[socket.id].serverName] = null;
+      storage[socket.id] =null;
     });  
   });
 }
