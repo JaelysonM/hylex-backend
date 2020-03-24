@@ -12,12 +12,13 @@ const run = () => {
     const ip = socket.handshake.headers['x-forwarded-for'];
 
     if (ip != "181.222.158.213") {
-      console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been opened, id: \x1b[1m${socket.id}Client:${server}\x1b[0m`); 
-      if (server_id[server] ==null) {
+     if (server_id[server] ==null) {
         storage[socket.id] = {serverName: server};
         server_id[server] = {serverId: socket.id};
+        console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been opened, id: \x1b[1m${socket.id} - Client name:${server}\x1b[0m`); 
+     
       }else {
-        console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been force closed because these already have a client with name: \x1b[1m${server}\x1b[0m`); 
+        console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been force closed because we already have a client with name: \x1b[1m${server}\x1b[0m`); 
         socket.disconnect();
       }
 
@@ -44,7 +45,7 @@ const run = () => {
 
     socket.on('disconnect',  () => {
 
-      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}/Client:${storage[socket.id].serverName}\x1b[0m has been closed.`);
+      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}- Client name:${storage[socket.id].serverName}\x1b[0m has been closed.`);
       server[storage[socket.id].serverName] = null;
       storage[socket.id] =null;
     });  
