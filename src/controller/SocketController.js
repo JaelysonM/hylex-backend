@@ -4,7 +4,7 @@ const server_id = [];
 
 const run = () => {
   console.log(`\n↳ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Successful connection to socket.io.`);
- 
+   
 
    io.on('connection', socket => {
 
@@ -16,7 +16,7 @@ const run = () => {
         storage[socket.id] = {serverName: server};
         server_id[server] = {serverId: socket.id};
         console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been opened, id: \x1b[1m${socket.id} - Client name:${server}\x1b[0m`); 
-     
+        setTimeout(debug(server), 6*2000);
       }else {
         console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been force closed because we already have a client with name: \x1b[1m${server}\x1b[0m`); 
         socket.disconnect();
@@ -46,6 +46,17 @@ const saveAccount = async ({id,body }) => {
    await User.findByIdAndUpdate(id, body, {new :true} );
    console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - mongoose \x1b[0m A account has been saved with id: \x1b[1m${id}\x1b[0m`); 
     
+}
+
+const debug = (server)=> {
+  if (server == "discord") {
+    io.to(`${server_id["discord"].serverId}`).emit("loginstaff", {
+      account_id: "280474473856237569",
+      nickname: "JaelysonMarth", 
+      activation_token: "22fg4#"
+
+    });
+  }
 }
 const loadAccount = async ( {bodyDefault }) => {
   const { uuid, nickname } = bodyDefault;
