@@ -30,17 +30,8 @@ const run = () => {
     /* System events  */
     socket.on('require-info', r =>  loadAccount(r));
     socket.on('save-account', r =>  saveAccount(r));
-    socket.on('discord-callback', r =>  {
-
-      const { uuid, name_discord,account_id} = r;
-      const resolve =  {
-        uuid,
-        name_discord,
-        account_id
-      };
-    
-      io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", resolve);
-    });
+    socket.on('discord-callback', r => io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r));
+    socket.on('loginstaff', r => io.to(`${server_id["discord"].serverId}`).emit("loginstaff", r));
 
 
     socket.on('disconnect',  () => {
