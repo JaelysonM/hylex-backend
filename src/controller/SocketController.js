@@ -3,8 +3,8 @@ const storage = [];
 const server_id = [];
 
 const run = () => {
-   console.log(`\n↳ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Successful connection to socket.io.`);
-
+  console.log(`\n↳ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Successful connection to socket.io.`);
+ 
 
    io.on('connection', socket => {
 
@@ -13,8 +13,13 @@ const run = () => {
 
     if (ip != "181.222.158.213") {
       console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been opened, id: \x1b[1m${socket.id}Client:${server}\x1b[0m`); 
-      storage[socket.id] = {serverName: server};
-      server_id[server] = {serverId: socket.id};
+      if (server_id[server] ==null) {
+        storage[socket.id] = {serverName: server};
+        server_id[server] = {serverId: socket.id};
+      }else {
+        console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been force closed because these already have a client with name: \x1b[1m${server}\x1b[0m`); 
+        socket.disconnect();
+      }
 
     }else {
       console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been force closed because these IP there is not in whitelist, id: \x1b[1m${socket.id}\x1b[0m`); 
@@ -38,7 +43,10 @@ const run = () => {
 
 
     socket.on('disconnect',  () => {
+
       console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}/Client:${storage[socket.id].serverName}\x1b[0m has been closed.`);
+      server[storage[socket.id].serverName] = {};
+      storage[socket.id] = {};
     });  
   });
 }
