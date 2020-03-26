@@ -9,9 +9,9 @@ const run = () => {
    io.on('connection', socket => {
 
     const {server} = socket.handshake.query;
-    const ip = socket.handshake.headers['x-forwarded-for'];
+   // const ip = socket.handshake.headers['x-forwarded-for'];
 
-    if (ip != "181.222.158.213") {
+
      if (server_id[server] ==null) {
         storage[socket.id] = {serverName: server};
         server_id[server] = {serverId: socket.id};
@@ -21,16 +21,16 @@ const run = () => {
         socket.disconnect();
       }
 
-    }else {
-      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new connection has been force closed because these IP there is not in whitelist, id: \x1b[1m${socket.id}\x1b[0m`); 
-      socket.disconnect();
-    }
 
     /* System events  */
     socket.on('require-info', r =>  loadAccount(r));
     socket.on('save-account', r =>  saveAccount(r));
     socket.on('discord-callback', r => io.to(`${server_id["rankup"].serverId}`).emit("discord-callback", r));
-    socket.on('loginstaff', r => io.to(`${server_id["discord"].serverId}`).emit("loginstaff", r));
+    socket.on('loginstaff', r => {
+     if (server_id["discord"] !=null ) {
+      io.to(`${server_id["discord"].serverId}`).emit("loginstaff", r);
+     }
+    });
 
 
     socket.on('disconnect',  () => {
