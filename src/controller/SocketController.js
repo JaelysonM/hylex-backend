@@ -31,6 +31,12 @@ const run = () => {
       io.to(`${server_id["discord"].serverId}`).emit("loginstaff", r);
      }
     });
+    socket.on('loginstaff-callback', r => {
+      if (server_id["rankup"] !=null ) {
+       io.to(`${server_id["rankup"].serverId}`).emit("loginstaff", r);
+      }
+     });
+
 
 
     socket.on('disconnect',  () => {
