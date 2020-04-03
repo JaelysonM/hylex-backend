@@ -1,7 +1,7 @@
 require('dotenv')
 const {io} = require('../server');
 
-const {getClientIdByName, registerClient, deleteClient} = require('../storage/clientStorage');
+const {getClientIdByName, registerClient, deleteClient,getClientNameByID} = require('../storage/clientStorage');
 
 const UserController = require('../controller/UserController');
 
@@ -56,9 +56,10 @@ function deploy() {
      socket.on('loginstaff-callback', r => getClientIdByName('rankup') !=null ? io.to(getClientIdByName('rankup')).emit("loginstaff", r):console.warn('[Socket.io] client "rankup" is disconnected.'));
 
      socket.on('disconnect',  () => {
-   
+      
+      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Connection closed | Id: \x1b[1m${socket.id} Name: ${getClientNameByID(socket.id)}`);
       deleteClient(socket.id);
-      console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m The connection with id \x1b[1m${socket.id}- Client name:${storage[socket.id].serverName}\x1b[0m has been closed.`);
+     
     }); 
   }
   
