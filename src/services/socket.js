@@ -42,7 +42,7 @@ function deploy() {
      */
      socket.on('require-info', r =>  UserController.index(r));
 
-     socket.on('save-account', r =>  UserController.update(r));
+     socket.on('save-account', r =>  UserController.update(r.id,r.body));
 
      /*
        Discord intregation events
