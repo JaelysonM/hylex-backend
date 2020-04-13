@@ -1,13 +1,21 @@
 require('dotenv')
-const {io} = require('../server');
+const {io,User} = require('../server');
 
 const {getClientIdByName, registerClient, deleteClient,getClientNameByID} = require('../storage/clientStorage');
 
 const UserController = require('../controller/UserController');
 
+
+
+
+
+
+
+
+
 function deploy() {
   console.log(`\n↳ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Successful created a socket.io server.`);
-
+  
   io.on('connection', socket => {
 
      const {server} = socket.handshake.query;

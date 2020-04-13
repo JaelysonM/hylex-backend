@@ -11,7 +11,6 @@ module.exports = {
       console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m Account loaded | Nickname: \x1b[1m${result.nickname}\x1b[0m UUID: \x1b[1m${result.uuid}\x1b[0m`); 
     
     }catch (err){
-      console.log(err);
       this.create(
         {
         uuid,
