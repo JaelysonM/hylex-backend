@@ -26,7 +26,6 @@ module.exports = {
     
   },
   async update(id, body) {
-    console.log(body);
     await GlobalProfile.findByIdAndUpdate(id, body, {new :true} );
     console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m GlobalProfile updated: \x1b[1m${id}\x1b[0m`); 
   }
