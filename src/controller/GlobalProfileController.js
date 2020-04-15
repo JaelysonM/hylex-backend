@@ -21,6 +21,7 @@ module.exports = {
   },
   async create(body,clientToSend) {
     const user =await GlobalProfile.create(body);
+    console.log(user);
     io.to(getClientIdByName(clientToSend)).emit('profile-callback',user);
     console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m GlobalProfile created | Nickname: \x1b[1m${user.nickname}\x1b[0m UUID: \x1b[1m${user.uuid}\x1b[0m`); 
     
