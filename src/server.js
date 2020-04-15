@@ -36,7 +36,8 @@ try {
 
 module.exports= {
   io,
-  User: mongoose.model('Users_Rankup')
+  User: mongoose.model('Users_Rankup'),
+  GlobalProfile: mongoose.model('Global_Profile')
 }
 /*
 */

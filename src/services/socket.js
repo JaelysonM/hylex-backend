@@ -5,6 +5,8 @@ const {getClientIdByName, registerClient, deleteClient,getClientNameByID} = requ
 
 const UserController = require('../controller/UserController');
 
+const GlobalProfileController = require('../controller/GlobalProfileController');
+
 
 
 
@@ -48,9 +50,13 @@ function deploy() {
      /*
        Account events
      */
-     socket.on('require-info', r =>  UserController.index(r));
+     socket.on('require-info', r => r. UserController.index(r));
 
      socket.on('save-account', r =>  UserController.update(r.id,r.body));
+
+     socket.on('require-globalprofile', r =>  GlobalProfileController.index(r));
+
+     socket.on('save-globalprofile', r =>  GlobalProfileController.update(r.id,r.body));
 
      /*
        Discord intregation events
