@@ -5,8 +5,9 @@ const {getClientIdByName} = require('../storage/clientStorage');
 module.exports = {
   async index( {bodyDefault} ) {
     const { uuid, nickname ,clientToSend } = bodyDefault;
+    console.log(clientToSend);
     try {
-      const result = await User.findOne({ uuid });
+      const result = await GlobalProfile.findOne({ uuid });
       io.to(getClientIdByName(clientToSend)).emit("profile-callback", result);
       console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m GlobalProfile loaded | Nickname: \x1b[1m${result.nickname}\x1b[0m UUID: \x1b[1m${result.uuid}\x1b[0m`);   
     }catch (err){
@@ -25,7 +26,7 @@ module.exports = {
     
   },
   async update(id, body) {
-    await User.findByIdAndUpdate(id, body, {new :true} );
+    await GlobalProfile.findByIdAndUpdate(id, body, {new :true} );
     console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m GlobalProfile updated: \x1b[1m${id}\x1b[0m`); 
   }
 }
