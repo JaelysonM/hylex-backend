@@ -16,6 +16,8 @@ const io = require('socket.io')(server);
 */
 
 try {
+
+  console.log(`Mongoose URL > ${process.env.MONGO_URL}`);
   mongoose.connect(`${process.env.MONGO_URL}`,{useNewUrlParser: true, useFindAndModify: false});
   console.log(`\n↳ \x1b[42m\x1b[30m backend - mongoose \x1b[0m Connection estabilished, connected to: \x1b[4m${process.env.DATABASE}\x1b[0m`)
 }catch (err){

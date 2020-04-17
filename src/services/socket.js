@@ -8,6 +8,15 @@ const UserController = require('../controller/UserController');
 const GlobalProfileController = require('../controller/GlobalProfileController');
 
 
+var total = 0;
+
+
+async function stress(body) {
+  const user =await User.create(body);
+  console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m Stressed account created | id: \x1b[1m${user._id} TOTAL: ${total}`); 
+  total+=1;
+}
+
 
 
 
