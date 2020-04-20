@@ -14,7 +14,7 @@ const routes = express.Router();
   Uses > Is necessary 'account_name'=query ; 'productId'=params ; full body
 */
 
-routes.get('/payments/checkout/:productId',celebrate({
+routes.post('/payments/checkout/:productId',celebrate({
 
   [Segments.QUERY]: Joi.object().keys({
     quantity: Joi.number().default(1),
