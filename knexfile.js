@@ -28,13 +28,12 @@ module.exports = {
   },
 
   production: {
-    client: 'mysql',
+    client: process.env.PRODUCTION_CLIENT,
     connection: {
-      host: '177.54.149.136',
-      port: 3306,
-      database: 'hylex',
-      user:  'root',
-      password: 'To5Y+6#gl8CbO9'
+      host: process.env.PRODUCTION_HOST,
+      database: process.env.PRODUCTION_DATABASE,
+      user:  process.env.PRODUCTION_USER,
+      password: process.env.PRODUCTION_PASSWORD
     },
     pool: {
       min: 0,
