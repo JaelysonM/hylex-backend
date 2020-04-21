@@ -13,10 +13,10 @@ module.exports = {
     const { encryptedData, iv , status } = req.params;
     try {
       const response = decrypt({ iv, encryptedData });
-      const email = response.split('-security-')[2];
-      const account_name = response.split('-security-')[1];
-      const product_id = response.split('-security-')[0];
-      const { merchant_order_id, payment_type } = req.query;
+      const email = response.split('-security-')[1];
+      const account_name = response.split('-security-')[0];
+  
+      const { merchant_order_id, payment_type, external_reference } = req.query;
 
       await conection('purchases').insert({
         id: merchant_order_id,
@@ -24,13 +24,14 @@ module.exports = {
         payment_type,
         email,
         status,
+        productId: external_reference,
         createdAt: getDate(new Date()),
         approvedAt: status == 'success' ? getDate(new Date()) : "N/A"
       });
 
       if (status == "success") {
         io.emit('activate-product-web', {
-          product_id: product_id,
+          product_id: external_reference,
           account_name,
           status,
         });

@@ -14,7 +14,7 @@ module.exports = {
     const { email, description, price, title } = req.body;
     const { productId } = req.params;
     const { quantity = 1, account_name } = req.query;
-    const { encryptedData, iv } = encrypt(`${productId}-security-${account_name}-security-${email}`);
+    const { encryptedData, iv } = encrypt(`${account_name}-security-${email}`);
 
     const purchaseOrder = {
       items: [
@@ -38,9 +38,11 @@ module.exports = {
         failure: getFullUrl(req) + `/payments/failure/${encryptedData}/${iv}`,
       }
     }
-
+  
     try {
-      const preference = await MercadoPago.preferences.create(purchaseOrder);
+      const preference = await MercadoPago.preferences.create(purchaseOrder, () => {
+      });
+
       return res.redirect(`${preference.body.init_point}`);
     } catch (err) {
       return res.send(err.message);

@@ -5,6 +5,7 @@ const { celebrate, Segments, Joi } = require('celebrate');
 const PurchasesController = require('./controller/PurchasesController');
 const StatusController = require('./controller/StatusController');
 const CheckoutController = require('./controller/CheckoutController');
+const LastPurchasesController = require('./controller/LastPurchasesController');
 
 const routes = express.Router();
 
@@ -47,13 +48,28 @@ routes.get('/payments/:status/:encryptedData/:iv',celebrate(
     merchant_order_id: Joi.number().required(),
     payment_type: Joi.string().required(),
     collection_id: Joi.number().required(),
-    collection_status: Joi.string().required()
-   }),
+    collection_status: Joi.string().optional(),
+    merchant_account_id: Joi.string().optional(),
+    processing_mode: Joi.string().optional(),
+    site_id: Joi.string().optional(),
+    preference_id: Joi.string().optional(),
+    external_reference: Joi.string().required()
+   })
    
  }
 ), StatusController.store);
 
+/*
 
+[Segments.QUERY]: Joi.object().keys({
+    merchant_order_id: Joi.number().required(),
+    payment_type: Joi.string().required(),
+    collection_id: Joi.number().required(),
+    collection_status: Joi.string().required(),
+    merchant_account_id: Joi.string().required()
+   })
+
+*/
 /*
   Purchases controller
   Method: GET,DELETE
