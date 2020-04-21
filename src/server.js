@@ -13,7 +13,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const routes = require("./routes");
 
-const {errors} = require('celebrate');
+const {errors} = require("celebrate");
 
 try {
   console.log(`Mongoose URL > ${process.env.MONGO_URL}`);
@@ -36,8 +36,8 @@ socket.deploy();
 app.use(express.json());
 app.disable('x-powered-by');
 app.use(cors());
-app.use(errors());
 app.use(routes);
+app.use(errors());
 
 
 
