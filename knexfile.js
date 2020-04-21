@@ -15,7 +15,7 @@ module.exports = {
     client: 'mariadb',
     connection: {
       database: 'my_db',
-      user:     'username',
+      user:  'username',
       password: 'password'
     },
     pool: {
@@ -30,9 +30,10 @@ module.exports = {
   production: {
     client: 'mysql',
     connection: {
-      host: 'localhost',
+      host: '177.54.149.136',
+      port: 3306,
       database: 'hylex',
-      user:     'root',
+      user:  'root',
       password: 'To5Y+6#gl8CbO9'
     },
     pool: {
@@ -41,7 +42,6 @@ module.exports = {
     },
     migrations: {
       directory: "./src/database/migrations",
-      tableName: 'migrations'
     },
   }
 

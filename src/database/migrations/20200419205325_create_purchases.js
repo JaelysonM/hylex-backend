@@ -1,7 +1,7 @@
 
 exports.up = function(knex) {
  return knex.schema.createTable('purchases' ,table => {
-    table.string('id').primary();
+    table.string('id').primary().unique().collate('utf8_unicode_ci');
     table.string('productId').notNullable();
     table.string('account_name').notNullable();
     table.string('email').notNullable();

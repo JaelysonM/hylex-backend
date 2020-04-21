@@ -53,7 +53,3 @@ const UserSchema = new mongoose.Schema({
 });
 
 mongoose.model('Users_Rankup', UserSchema);
-
-module.exports= {
-  User: mongoose.model('Users_Rankup')
-}

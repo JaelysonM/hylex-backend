@@ -26,6 +26,8 @@ requireDir('./models');
 
 module.exports = {
   io,
+  User: mongoose.model('Users_Rankup'),
+  GlobalProfile: mongoose.model('Global_Profile')
 }
 
 const { socket } = requireDir("services");

@@ -22,7 +22,3 @@ const UserSchema = new mongoose.Schema({
 });
 
 mongoose.model('Global_Profile', UserSchema);
-
-module.exports = {
-  GlobalProfile: mongoose.model('Global_Profile')
-}

@@ -1,7 +1,5 @@
-const { io } = require('../server');
+const { io, User } = require('../server');
 const { getClientIdByName } = require('../storage/clientStorage');
-const { User } = require('../models/User');
-
 module.exports = {
   async index({ bodyDefault }) {
     const { uuid, nickname } = bodyDefault;

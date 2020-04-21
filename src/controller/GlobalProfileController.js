@@ -1,6 +1,6 @@
-const { io } = require('../server');
+const { io ,GlobalProfile} = require('../server');
 const { getClientIdByName } = require('../storage/clientStorage');
-const { GlobalProfile } = require('../models/GlobalProfile');
+
 
 module.exports = {
   async index({ bodyDefault }) {
