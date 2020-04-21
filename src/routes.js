@@ -5,7 +5,6 @@ const { celebrate, Segments, Joi } = require('celebrate');
 const PurchasesController = require('./controller/PurchasesController');
 const StatusController = require('./controller/StatusController');
 const CheckoutController = require('./controller/CheckoutController');
-const LastPurchasesController = require('./controller/LastPurchasesController');
 
 const routes = express.Router();
 
@@ -77,7 +76,7 @@ routes.get('/payments/:status/:encryptedData/:iv',celebrate(
 routes.get('/payments/purchases', celebrate({
   [Segments.HEADERS]: Joi.object({
     manage_token: Joi.string().required()
-  }).unknown()
+  })
 }), PurchasesController.index);
 
 routes.delete('/payments/purchases/:id', celebrate({
@@ -86,7 +85,7 @@ routes.delete('/payments/purchases/:id', celebrate({
   }),
   [Segments.HEADERS]: Joi.object({
     manage_token: Joi.string().required()
-  }).unknown()
+  })
 }),
   PurchasesController.delete);
 

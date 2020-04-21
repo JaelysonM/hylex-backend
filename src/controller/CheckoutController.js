@@ -4,6 +4,11 @@ const { encrypt } = require('../services/encryptUtils');
 
 const { getFullUrl } = require('../services/getFullURL');
 
+
+function callback() {
+  console.log("CALLBACK");
+}
+
 module.exports = {
   async store(req, res) {
     MercadoPago.configure({
@@ -40,12 +45,18 @@ module.exports = {
     }
   
     try {
-      const preference = await MercadoPago.preferences.create(purchaseOrder, () => {
-      });
+      const preference = await MercadoPago.preferences.create(purchaseOrder);
+    
+
+
+    
+     console.log( MercadoPago);
 
       return res.redirect(`${preference.body.init_point}`);
     } catch (err) {
       return res.send(err.message);
     }
   }
+  
 }
+
