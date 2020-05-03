@@ -2,9 +2,9 @@ const express = require('express');
 
 const { celebrate, Segments, Joi } = require('celebrate');
 
-const PurchasesController = require('./controller/PurchasesController');
-const StatusController = require('./controller/StatusController');
-const CheckoutController = require('./controller/CheckoutController');
+const PurchasesController = require('./controller/web/PurchasesController');
+const StatusController = require('./controller/web/StatusController');
+const CheckoutController = require('./controller/web/CheckoutController');
 
 const routes = express.Router();
 
@@ -30,12 +30,18 @@ routes.post('/payments/checkout/:productId',celebrate({
     title: Joi.string().required(),
   }),
 }), CheckoutController.store);
-
 /*
   Status callback controller
   Method: GET
   Uses > Return de purchase status and compute based in the status
 */
+
+routes.get('/callback', (req,res) => {
+  return res.json({
+    message: "CALLBACK"
+  })
+})
+
 routes.get('/payments/:status/:encryptedData/:iv',celebrate(
  {
    [Segments.PARAMS]: Joi.object().keys({

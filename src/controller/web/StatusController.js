@@ -1,12 +1,12 @@
 
 
-const { decrypt } = require('../services/encryptUtils');
+const { decrypt } = require('../../services/encryptUtils');
 
-const { getDate } = require('../services/dateUtils');
+const { getDate } = require('../../services/dateUtils');
 
-const conection = require('../database/conection');
+const conection = require('../../database/conection');
 
-const { io } = require('../server');
+const { io } = require('../../server');
 
 module.exports = {
   async store(req, res) {

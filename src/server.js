@@ -11,35 +11,44 @@ const requireDir = require('require-dir');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const routes = require("./routes");
 
-const {errors} = require("celebrate");
+const { errors } = require("celebrate");
 
+const arenaStorage = require('./storage/arenaStorage');
 try {
+
   console.log(`Mongoose URL > ${process.env.MONGO_URL}`);
   mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
   console.log(`\n↳ \x1b[42m\x1b[30m backend - mongoose \x1b[0m Connection estabilished, connected to: \x1b[4m${process.env.DATABASE}\x1b[0m`)
-}catch (err) {
- console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - mongoose \x1b[0m A error occoured connect mongo.`)
-}
-requireDir('./models');
 
-module.exports = {
-  io,
-  User: mongoose.model('Users_Rankup'),
-  GlobalProfile: mongoose.model('Global_Profile')
+} catch (err) {
+  console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - mongoose \x1b[0m A error occoured connect mongo.`)
 }
 
-const { socket } = requireDir("services");
-socket.deploy();
+const requirerModels = requireDir('./models');;
 
 app.use(express.json());
 app.disable('x-powered-by');
 app.use(cors());
-app.use(routes);
+
+const models = [];
+
+models['Global_Profile'] = mongoose.model('Global_Profile');
+models['BedWarsData'] = mongoose.model('BedWarsData');
+models['Users_Rankup'] = mongoose.model('Users_Rankup');
+
+
+module.exports = {
+  io,
+  models,
+}
+
+const { socket } = requireDir("services");
+socket.deploy(io);
+
+app.use(require("./routes"));
 app.use(errors());
 
-
-
-
 server.listen(process.env.PORT || 3333, console.log(`\n↳ \x1b[46m\x1b[30m backend - server \x1b[0m Listening on port: \x1b[4m3333\x1b[0m`));
+
+

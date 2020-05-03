@@ -1,18 +1,20 @@
 require('dotenv')
-const { io, User } = require('../server');
-
 const { getClientIdByName, registerClient, deleteClient, getClientNameByID } = require('../storage/clientStorage');
 
-const UserController = require('../controller/UserController');
+const DataController = require('../controller/DataController');
 
-const GlobalProfileController = require('../controller/GlobalProfileController');
+const arenaStorage = require('../storage/arenaStorage');
 
-function deploy() {
+const MatchmakingController = require('../controller/MatchmakingController');
+
+const ArenaController = require('../controller/ArenaController');
+
+function deploy(io) {
   console.log(`\n↳ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Successful created a socket.io server.`);
 
   io.on('connection', socket => {
 
-    const { server } = socket.handshake.query;
+    const { server ,arenaClient } = socket.handshake.query;
     const { authorization } = socket.handshake.headers;
     const combineToken = process.env.AUTHORIZATION_TOKEN;
 
@@ -20,9 +22,18 @@ function deploy() {
       if (getClientIdByName(server) == null) {
 
         registerClient(socket.id, server);
+
+
         console.log(`\n\x1b[32m⇅ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A new client has connected.`);
         console.log(` \x1b[32m↳ \x1b[43m\x1b[0m Name: ${server}`);
         console.log(` \x1b[32m↳ \x1b[43m\x1b[0m Id: ${socket.id}`);
+        console.log(` \x1b[32m↳ \x1b[43m\x1b[0m Arena-Client: ${arenaClient}`);
+
+        if (arenaClient == 'true') {
+           arenaStorage.registerMinigame(server.replace().split('-')[1]);
+           arenaStorage.registerMega(server.split('-')[1], server.split('-')[2]);
+           console.log(` \x1b[32m↳ \x1b[43m\x1b[0m Trying to register this ${server.split('-')[1]} MEGA-ARENA: ${server.split('-')[2]}`);
+        }
 
       } else {
         console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m A connection to the server was rejected, as there is already a connected client with the name: ${server}`);
@@ -43,13 +54,10 @@ function deploy() {
     /*
       Account events
     */
-    socket.on('require-info', r => r.UserController.index(r));
 
-    socket.on('save-account', r => UserController.update(r.id, r.body));
+    socket.on('data-require', r => DataController.index(r))
 
-    socket.on('require-globalprofile', r => GlobalProfileController.index(r));
-
-    socket.on('save-globalprofile', r => GlobalProfileController.update(r.id, r.body));
+    socket.on('data-save', r => DataController.update(r));
 
     /*
       Discord intregation events
@@ -62,7 +70,19 @@ function deploy() {
 
     socket.on('loginstaff-callback', r => getClientIdByName('rankup') != null ? io.to(getClientIdByName('rankup')).emit("loginstaff", r) : console.warn('[Socket.io] client "rankup" is disconnected.'));
 
+  
+    socket.on('search-arena', r => MatchmakingController.find(r));
+    socket.on('update-mini', r =>ArenaController.update(r));
+
     socket.on('disconnect', () => {
+      
+      const clientName = getClientNameByID(socket.id);
+      if (clientName.startsWith("core-bedwars")) {
+        const minigame = clientName.split("-")[1];
+        const mega = clientName.split("-")[2];
+        arenaStorage.deleteMega(minigame,mega);
+  
+      }
 
     console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - socket.io \x1b[0m Connection closed | Id: \x1b[1m${socket.id} Name: ${getClientNameByID(socket.id)}`);
     deleteClient(socket.id);

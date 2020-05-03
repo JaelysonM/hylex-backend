@@ -1,13 +1,8 @@
 const MercadoPago = require('mercadopago');
 
-const { encrypt } = require('../services/encryptUtils');
+const { encrypt } = require('../../services/encryptUtils');
 
-const { getFullUrl } = require('../services/getFullURL');
-
-
-function callback() {
-  console.log("CALLBACK");
-}
+const { getFullUrl } = require('../../services/getFullURL');
 
 module.exports = {
   async store(req, res) {
@@ -46,11 +41,6 @@ module.exports = {
   
     try {
       const preference = await MercadoPago.preferences.create(purchaseOrder);
-    
-
-
-    
-     console.log( MercadoPago);
 
       return res.redirect(`${preference.body.init_point}`);
     } catch (err) {
