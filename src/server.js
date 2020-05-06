@@ -14,41 +14,73 @@ const io = require('socket.io')(server);
 
 const { errors } = require("celebrate");
 
-const arenaStorage = require('./storage/arenaStorage');
+
+
+  /*
+  
+   MercadoPago build
+
+  */
+
+
 try {
 
   console.log(`Mongoose URL > ${process.env.MONGO_URL}`);
   mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
-  console.log(`\n↳ \x1b[42m\x1b[30m backend - mongoose \x1b[0m Connection estabilished, connected to: \x1b[4m${process.env.DATABASE}\x1b[0m`)
+  console.log(`\n↳ \x1b[42m\x1b[30m mongoose \x1b[0m Connection estabilished, connected to: \x1b[4m${process.env.DATABASE}\x1b[0m`);
+
+  requireDir('./models');
+
+  app.use(express.json());
+  app.disable('x-powered-by');
+  app.use(cors());
+  
+  /*
+  
+   Schema deploy
+  
+  */
+  
+  
+  const { deploy } = require('./services/schemaUtils');
+  const models = deploy(mongoose);
+  /**/
+  
+  module.exports = {
+    io,
+    models
+  }
+  /*
+  
+   Socket deploy
+  
+  */
+  const { socket } = requireDir("services");
+  
+  socket.deploy(io);
+  
+  /**/
+  
+  /*
+  
+   Router
+  
+  */
+  app.use(require("./routes"));
+  app.use(errors());
+  
+  /**/
+  
+  console.log(`\n↳ \x1b[46m\x1b[30m web - MercadoPago \x1b[0m MercadoPago deployed with token: ${process.env.MP_ACCESS_TOKEN}\x1b[4m3333\x1b[0m`)
+  
+  server.listen(process.env.PORT || 3333, console.log(`\n↳ \x1b[46m\x1b[30m backend - server \x1b[0m RestAPI and Services listening on port: \x1b[4m3333\x1b[0m`));
+  
 
 } catch (err) {
-  console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m backend - mongoose \x1b[0m A error occoured connect mongo.`)
+  console.log(err);
+  console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m mongoose \x1b[0m A error occoured connect mongo.`);
 }
 
-const requirerModels = requireDir('./models');;
 
-app.use(express.json());
-app.disable('x-powered-by');
-app.use(cors());
-
-const models = [];
-
-models['Global_Profile'] = mongoose.model('Global_Profile');
-models['BedWarsData'] = mongoose.model('BedWarsData');
-models['Users_Rankup'] = mongoose.model('Users_Rankup');
-
-
-module.exports = {
-  io,
-  models,
-}
-
-const { socket } = requireDir("services");
-socket.deploy(io);
-
-app.use(require("./routes"));
-app.use(errors());
-
-server.listen(process.env.PORT || 3333, console.log(`\n↳ \x1b[46m\x1b[30m backend - server \x1b[0m Listening on port: \x1b[4m3333\x1b[0m`));
 
 

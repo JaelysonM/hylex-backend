@@ -17,7 +17,22 @@ const UserSchema = new mongoose.Schema({
     quickBuy: {
       type: Object,
       required: false,
-      default: {}
+      default: {
+        '19': "1:wool",
+        '20': "2:stone",
+        '21': "3:chainmail",
+        '22': "7:enderpearl",
+        '23': "5:bow",
+        '24': "6:speed2",
+        '25': "7:tnt",
+        '28': "1:oakwoodplanks",
+        '29': "2:iron",
+        '30': "3:iron",
+        '31': "4:shears",
+        '32': "5:arrow",
+        '33': "6:invisibility1",
+        '34': "7:waterbucket",
+      }
     },
   },
   statistics: {
@@ -175,6 +190,6 @@ const UserSchema = new mongoose.Schema({
   }
 
 
-});
+},{ minimize: false });
 
 mongoose.model('BedWarsData', UserSchema);

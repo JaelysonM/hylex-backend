@@ -4,7 +4,7 @@ const { decrypt } = require('../../services/encryptUtils');
 
 const { getDate } = require('../../services/dateUtils');
 
-const conection = require('../../database/conection');
+const connection = require('../../database/connection');
 
 const { io } = require('../../server');
 
@@ -18,7 +18,7 @@ module.exports = {
   
       const { merchant_order_id, payment_type, external_reference } = req.query;
 
-      await conection('purchases').insert({
+      await connection('purchases').insert({
         id: merchant_order_id,
         account_name,
         payment_type,
