@@ -14,7 +14,7 @@ function deploy(io) {
 
   io.on('connection', socket => {
 
-    const { server ,arenaClient, thirdParty } = socket.handshake.query;
+    const { server ,arenaClient = false, thirdParty = false } = socket.handshake.query;
     const { authorization } = socket.handshake.headers;
     const combineToken = process.env.AUTHORIZATION_TOKEN;
 

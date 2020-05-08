@@ -16,7 +16,6 @@ module.exports = {
     const founded = [];
 
     if (arenaStorage.getMinigame(minigame) != null) {
-     
       const all = Object.values(arenaStorage.getArenas(minigame));
       for (x in all) {
         for (y in all[x]) {

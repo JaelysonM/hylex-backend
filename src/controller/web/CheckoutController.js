@@ -3,7 +3,6 @@ const { encrypt } = require('../../services/encryptUtils');
 
 const { getFullUrl } = require('../../services/getFullURL');
 
-const { localStorage } = require('../../services/localStorage');
 
 const crypto = require('crypto');
 
@@ -14,43 +13,59 @@ module.exports = {
       sandbox: process.env.SANDBOX == 'true' ? true : false,
       access_token: process.env.MP_ACCESS_TOKEN
     })
+    const { type } = req.query;
+    const items = req.body.items.map(item => {
+      return {
+        id: item.productId,
+        title: item.title,
+        description: item.description,
+        quantity: item.quantity,
+        currency_id: 'BRL',
+        picture_url: "https://media.giphy.com/media/Zaej3GIZTzCI8/giphy.gif",
+        unit_price: parseFloat(item.price),
+        category_id: 'games'
+      }
+    })
 
-    const { email, description, price, title } = req.body;
-    const { productId } = req.params;
-    const { quantity = 1, account_name } = req.query;
+    const { email } = req.body.info;
+    const { account_name } = req.query;
     const { encryptedData, iv } = encrypt(`${account_name}-security-${email}`);
     const token = crypto.randomBytes(15).toString("HEX");
-    
+
     const purchaseOrder = {
-      items: [
-        item = {
-          id: productId,
-          title,
-          description,
-          quantity,
-          currency_id: 'BRL',
-          unit_price: parseFloat(price)
-        }
-      ],
+      items,
       payer: {
-        email: email,
+        email,
       },
-      notification_url: "http://177.54.149.136:3333/ipn?authorize=" + token,
+      notification_url: `http://177.54.149.136:3333/api/payments/ipn/${encryptedData}/${iv}?authorize=${token}`,
       auto_return: "all",
-      external_reference: productId,
+      payment_methods: {
+        excluded_payment_methods: [
+            {
+                id: "pec"
+            }
+        ],
+        installments: 4,
+      },
+      external_reference: token,
       back_urls: {
-        success: getFullUrl(req) + `/payments/success/${encryptedData}/${iv}`,
-        pending: getFullUrl(req) + `/payments/pending/${encryptedData}/${iv}`,
-        failure: getFullUrl(req) + `/payments/failure/${encryptedData}/${iv}`,
+        success: getFullUrl(req) + `/api/callback/${encryptedData}/${iv}?status=success`,
+        pending: getFullUrl(req) + `/api/callback/${encryptedData}/${iv}?status=pending`,
+        failure: getFullUrl(req) + `/api/callback/${encryptedData}/${iv}?status=failure`,
       }
     }
 
     try {
       const preference = await MercadoPago.preferences.create(purchaseOrder);
+      if (type == 'debug') {
+        return res.redirect(`${preference.body.init_point}`);
+      } else {
+        return res.json({ url: `${preference.body.init_point}`});
+      }
 
-      return res.redirect(`${preference.body.init_point}`);
+    } catch (err) { console.log(err); return res.redirect(`${process.env.URL_BAD_REQUEST}`); }
 
-    } catch (err) { return res.json(err.message); }
+
   }
 
 }
