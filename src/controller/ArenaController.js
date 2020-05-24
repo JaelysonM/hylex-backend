@@ -5,7 +5,6 @@ module.exports = {
     for (x in minis.body) {
      const mini = minis.body[x];
       updateMini(minis.minigame, mini.name, mini.attached, mini);
-
     }
   }
 }

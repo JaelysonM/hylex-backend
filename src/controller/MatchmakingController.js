@@ -1,13 +1,11 @@
 const arenaStorage = require('../storage/arenaStorage');
-const {getClientIdByName} = require('../storage/clientStorage');
+const { getClientIdByName } = require('../storage/clientStorage');
 
-const {io} = require('../server');
+const { io } = require('../server');
 
 function randomize(a, b) {
   return Math.random() - 0.5;
 }
-
-
 
 const avaliableStatus = ['IN_WAITING','STARTING','PREPARE']
 
