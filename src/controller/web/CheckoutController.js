@@ -37,7 +37,7 @@ module.exports = {
       payer: {
         email,
       },
-      notification_url: `http://177.54.149.136:3333/api/payments/ipn/${encryptedData}/${iv}?authorize=${token}`,
+      notification_url: getFullUrl(req) + `/api/payments/ipn/${encryptedData}/${iv}?authorize=${token}`,
       auto_return: "all",
       payment_methods: {
         excluded_payment_methods: [

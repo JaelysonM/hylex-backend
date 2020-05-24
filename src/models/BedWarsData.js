@@ -187,6 +187,13 @@ const UserSchema = new mongoose.Schema({
         default: 0,
       },
     },
+    exp: {
+      global: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+    },
   }
 
 

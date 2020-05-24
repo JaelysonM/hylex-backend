@@ -77,7 +77,54 @@ function deploy(io) {
 
   
     socket.on('search-arena', r => MatchmakingController.find(r));
+
+    socket.on('send-restart-require', r =>{
+      const client = getClientIdByName('core-bungee');
+      if (client !=null) {
+        io.to(client).emit('send-restart-require', {
+          name: r.clientName,
+        });
+      }
+    });
+
+    socket.on('send-restart-server', r =>{
+      const client = getClientIdByName(r.clientName);
+      if (client !=null) {
+        io.to(client).emit('send-restart-server', {
+          name: r.clientName,
+        });
+      }
+    });
+
+    socket.on('send-finished-restart', r =>{
+      const client = getClientIdByName('core-bungee');
+      if (client !=null) {
+        io.to(client).emit('send-finished-restart', {
+          name: r.clientName,
+        });
+      }
+    });
+
+    socket.on('save-mini', r =>{
+      const client = getClientIdByName('core-bungee');
+      if (client !=null) {
+        io.to(client).emit('save-mini', r);
+      }
+    });
+
+
     socket.on('update-mini', r =>ArenaController.update(r));
+
+    socket.on('join-mini-force', r =>{
+      const client = getClientIdByName(r.clientName);
+
+      if (client !=null) {
+        io.to(client).emit('join-mini', {
+          players: r.players,
+          name: r.name,
+        });
+      }
+    });
 
     socket.on('disconnect', () => {
       

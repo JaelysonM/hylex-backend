@@ -17,6 +17,7 @@ module.exports = {
       message: `Bad request: we cannot identify this issue`,
       status: 500,
     };
+    
     try {
       const { topic, authorize, id } = req.query;
 
