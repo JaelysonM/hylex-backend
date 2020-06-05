@@ -44,6 +44,8 @@ try {
   
   const { deploy } = require('./services/schemaUtils');
   const models = deploy(mongoose);
+
+  const schema =  models['BedWarsData'];
   /**/
   
   module.exports = {
@@ -80,6 +82,13 @@ try {
   console.log(err);
   console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m mongoose \x1b[0m A error occoured connect mongo.`);
 }
+
+
+setInterval(() => {
+  global.gc();
+}, 1000*30);
+
+
 
 
 

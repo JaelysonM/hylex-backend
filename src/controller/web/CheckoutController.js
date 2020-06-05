@@ -21,7 +21,6 @@ module.exports = {
         description: item.description,
         quantity: item.quantity,
         currency_id: 'BRL',
-        picture_url: "https://media.giphy.com/media/Zaej3GIZTzCI8/giphy.gif",
         unit_price: parseFloat(item.price),
         category_id: 'games'
       }
@@ -29,7 +28,7 @@ module.exports = {
 
     const { email } = req.body.info;
     const { account_name } = req.query;
-    const { encryptedData, iv } = encrypt(`${account_name}-security-${email}`);
+    const encryptedData = encrypt(`${account_name}-security-${email}`);
     const token = crypto.randomBytes(15).toString("HEX");
 
     const purchaseOrder = {
@@ -37,7 +36,7 @@ module.exports = {
       payer: {
         email,
       },
-      notification_url: getFullUrl(req) + `/api/payments/ipn/${encryptedData}/${iv}?authorize=${token}`,
+      notification_url: getFullUrl(req) + `/api/payments/ipn/${encryptedData}?authorize=${token}`,
       auto_return: "all",
       payment_methods: {
         excluded_payment_methods: [
@@ -49,9 +48,9 @@ module.exports = {
       },
       external_reference: token,
       back_urls: {
-        success: getFullUrl(req) + `/api/callback/${encryptedData}/${iv}?status=success`,
-        pending: getFullUrl(req) + `/api/callback/${encryptedData}/${iv}?status=pending`,
-        failure: getFullUrl(req) + `/api/callback/${encryptedData}/${iv}?status=failure`,
+        success: getFullUrl(req) + `/api/callback/${encryptedData}?status=success`,
+        pending: getFullUrl(req) + `/api/callback/${encryptedData}?status=pending`,
+        failure: getFullUrl(req) + `/api/callback/${encryptedData}?status=failure`,
       }
     }
 

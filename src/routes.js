@@ -18,7 +18,7 @@ const crypto = require('crypto');
 */
 
 
-celebrate({
+routes.post('/api/payments/checkout',celebrate({
   [Segments.QUERY]: Joi.object().keys({
     account_name: Joi.string().required(),
     type: Joi.string().required().equal('web').equal('debug')
@@ -37,21 +37,30 @@ celebrate({
 
     })
   }).unknown(),
-}),
-routes.post('/api/payments/checkout', CheckoutController.store);
+}), CheckoutController.store);
 /*
   Status callback controller
   Method: GET
   Uses > Return de purchase status and compute based in the status
 */
 
-routes.post('/api/payments/ipn/:encryptedData/:iv', IpnController.store)
+routes.post('/api/payments/ipn/:encryptedData', 
+celebrate({
+  [Segments.QUERY]: Joi.object({
+    topic: Joi.string().default(null),
+    authorize: Joi.string().required(),
+    id: Joi.string().default(null),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    encryptedData: Joi.string().required(),
+  }).unknown(),
+})
+,IpnController.store)
 
-routes.get('/api/callback/:encryptedData/:iv', celebrate(
+routes.get('/api/callback/:encryptedData', celebrate(
   {
     [Segments.PARAMS]: Joi.object().keys({
       encryptedData: Joi.string().required(),
-      iv: Joi.string().required(),
     }).unknown(),
     [Segments.QUERY]: Joi.object().keys({
       merchant_order_id: Joi.required(),

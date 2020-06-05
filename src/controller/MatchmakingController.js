@@ -7,14 +7,14 @@ function randomize(a, b) {
   return Math.random() - 0.5;
 }
 
-const avaliableStatus = ['IN_WAITING','STARTING','PREPARE']
+const avaliableStatus = ['IN_WAITING','STARTING','PREPARE'];
 
 module.exports = {
   async find({ minigame, players, mode, clientName }) {
-    const founded = [];
+    let founded = [];
 
     if (arenaStorage.getMinigame(minigame) != null) {
-      const all = Object.values(arenaStorage.getArenas(minigame));
+      let all = Object.values(arenaStorage.getArenas(minigame));
       for (x in all) {
         for (y in all[x]) {
           if (avaliableStatus.includes(all[x][y].arena.state) && (all[x][y].arena.players + players.length) <= all[x][y].arena.maxPlayers && all[x][y].arena.mode == mode) {
@@ -33,7 +33,7 @@ module.exports = {
         });
     
       } else {
-        const matchFound = founded.sort(randomize).sort((a, b) => b.arena.players - a.arena.players)[0];
+        let matchFound = founded.sort(randomize).sort((a, b) => b.arena.players - a.arena.players)[0];
         io.to(getClientIdByName('core-bedwars-' + matchFound.attached)).emit('join-mini', {
           players,
           name: matchFound.name,
@@ -47,7 +47,14 @@ module.exports = {
             message: `Success: We found avaliable matchs.`
           }
         });
-        matchFound.arena.players += players.length;
+        if ((matchFound.arena.players + players.length) <= matchFound.arena.maxPlayers) {
+          matchFound.arena.players += players.length;
+        }
+        if (matchFound.arena.players >= matchFound.arena.maxPlayers) 
+        {
+          matchFound.arena.state="FULL";
+        }
+      
 
       }
       return;

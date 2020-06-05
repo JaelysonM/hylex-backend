@@ -11,7 +11,6 @@ const ArenaController = require('../controller/ArenaController');
 
 function deploy(io) {
   console.log(`\n↳ \x1b[43m\x1b[30m socket.io \x1b[0m Successful created a socket.io server.`);
-
   io.on('connection', socket => {
 
     const { server ,arenaClient = false, thirdParty = false } = socket.handshake.query;

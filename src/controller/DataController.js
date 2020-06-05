@@ -4,13 +4,13 @@ const { io, models } = require('../server');
 module.exports = {
   async index({ defaultBody, parameters: { clientName, schemasToRequire } }) {
     try {
-      const { uuid, name } = defaultBody;
+      let { uuid, name } = defaultBody;
 
-      const datas = [];
+      let datas = [];
 
       for (x in schemasToRequire) {
-        const schemaName = schemasToRequire[x];
-        var data = null;
+        let schemaName = schemasToRequire[x];
+        let data = null;
         try {
           data = await models[schemaName].findOne({ uuid });
         } catch (err) { }
@@ -35,15 +35,30 @@ module.exports = {
   },
   async update({ uuid, schemas }) {
     for (x in schemas) {
-      const { schemaName, data } = schemas[x];
-      const body = data;
-      const id = data._id;
+      let { schemaName, data } = schemas[x];
+      let body = data;
+      let id = data._id;
       delete body['_id'];
       delete body['__v'];
       await models[schemaName].findByIdAndUpdate(id, body);
 
     }
-
     // console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m Data saved | UUID: \x1b[1m${uuid}\x1b[0m`);
+  },
+  async top() {
+    let log = Date.now();
+    const response = await models['BedWarsData'].find().sort({
+      "statistics.kills.global": -1
+    }).limit(10);
+
+    let x = 0;
+ 
+    response.forEach(result => {
+      x++;
+      console.log(`${x}º lugar: ${result.name} - ${result.statistics.kills.global}`)
+
+    })
+    console.log(``);
+    console.log(`Demorou ${(Date.now() - log)/1000} segundos`);
   }
 }

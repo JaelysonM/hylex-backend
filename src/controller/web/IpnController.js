@@ -22,9 +22,9 @@ module.exports = {
       const { topic, authorize, id } = req.query;
 
       if (topic != null && topic == 'merchant_order' && localStorage.getItem(authorize) == null) {
-        const { encryptedData, iv } = req.params;
+        const { encryptedData} = req.params;
 
-        const response = decrypt({ iv, encryptedData });
+        const response = decrypt(encryptedData);
         const email = response.split('-security-')[1];
         const account_name = response.split('-security-')[0];
 
