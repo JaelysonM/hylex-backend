@@ -16,11 +16,11 @@ const { errors } = require("celebrate");
 
 
 
-  /*
-  
-   MercadoPago build
+/*
+ 
+ MercadoPago build
 
-  */
+*/
 
 
 try {
@@ -34,20 +34,20 @@ try {
   app.use(express.json());
   app.disable('x-powered-by');
   app.use(cors());
-  
+
   /*
   
    Schema deploy
   
   */
-  
-  
+
+
   const { deploy } = require('./services/schemaUtils');
   const models = deploy(mongoose);
 
-  const schema =  models['BedWarsData'];
+  const schema = models['BedWarsData'];
   /**/
-  
+
   module.exports = {
     io,
     models
@@ -58,11 +58,11 @@ try {
   
   */
   const { socket } = requireDir("services");
-  
+
   socket.deploy(io);
-  
+
   /**/
-  
+
   /*
   
    Router
@@ -70,13 +70,13 @@ try {
   */
   app.use(require("./routes"));
   app.use(errors());
-  
+
   /**/
-  
+
   console.log(`\n↳ \x1b[46m\x1b[30m web - MercadoPago \x1b[0m MercadoPago deployed with token: ${process.env.MP_ACCESS_TOKEN}\x1b[4m3333\x1b[0m`)
-  
+
   server.listen(process.env.PORT || 3333, console.log(`\n↳ \x1b[46m\x1b[30m backend - server \x1b[0m RestAPI and Services listening on port: \x1b[4m3333\x1b[0m`));
-  
+
 
 } catch (err) {
   console.log(err);
@@ -86,7 +86,13 @@ try {
 
 setInterval(() => {
   global.gc();
-}, 1000*30);
+}, 1000 * 30);
+
+setInterval(() => {
+  const used = process.memoryUsage().heapUsed / 1024 / 1024;
+  process.stdout.write("\r\x1b[K");
+  process.stdout.write(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+}, 1000);
 
 
 

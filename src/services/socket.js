@@ -35,7 +35,7 @@ function deploy(io) {
         }
         if (arenaClient == 'true') {
            arenaStorage.registerMinigame(server.replace().split('-')[1]);
-           arenaStorage.registerMega(server.split('-')[1], server.split('-')[2]);
+           //arenaStorage.registerMega(server.split('-')[1], server.split('-')[2]);
            console.log(` \x1b[32m↳ \x1b[43m\x1b[0m Trying to register this ${server.split('-')[1]} MEGA-ARENA: ${server.split('-')[2]}`);
         }
 
@@ -131,7 +131,7 @@ function deploy(io) {
       if (clientName.startsWith("core-bedwars")) {
         const minigame = clientName.split("-")[1];
         const mega = clientName.split("-")[2];
-        arenaStorage.deleteMega(minigame,mega);
+        arenaStorage.deleteMega(mega,minigame)
   
       }
 

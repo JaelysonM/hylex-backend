@@ -52,6 +52,16 @@ const UserSchema = new mongoose.Schema({
         require: false,
         default: 0,
       },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
 
     },
     finalDeaths: {
@@ -66,6 +76,16 @@ const UserSchema = new mongoose.Schema({
         default: 0,
       },
       dupla: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
         type: Number,
         require: false,
         default: 0,
@@ -88,6 +108,16 @@ const UserSchema = new mongoose.Schema({
         require: false,
         default: 0,
       },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
 
     },
     bedsBroken: {
@@ -102,6 +132,16 @@ const UserSchema = new mongoose.Schema({
         default: 0,
       },
       dupla: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
         type: Number,
         require: false,
         default: 0,
@@ -124,6 +164,16 @@ const UserSchema = new mongoose.Schema({
         require: false,
         default: 0,
       },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
 
     },
     deaths: {
@@ -138,6 +188,16 @@ const UserSchema = new mongoose.Schema({
         default: 0,
       },
       dupla: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
         type: Number,
         require: false,
         default: 0,
@@ -160,6 +220,21 @@ const UserSchema = new mongoose.Schema({
         require: false,
         default: 0,
       },
+      dupla: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
 
     },
     games: {
@@ -174,6 +249,16 @@ const UserSchema = new mongoose.Schema({
         default: 0,
       },
       dupla: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      trio: {
+        type: Number,
+        require: false,
+        default: 0,
+      },
+      squad: {
         type: Number,
         require: false,
         default: 0,

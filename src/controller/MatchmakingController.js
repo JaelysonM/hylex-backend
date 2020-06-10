@@ -7,19 +7,22 @@ function randomize(a, b) {
   return Math.random() - 0.5;
 }
 
-const avaliableStatus = ['IN_WAITING','STARTING','PREPARE'];
+const avaliableStatus = ['IN_WAITING', 'STARTING', 'PREPARE'];
 
 module.exports = {
   async find({ minigame, players, mode, clientName }) {
     let founded = [];
+    if (arenaStorage.getArenas(minigame) != null) {
 
-    if (arenaStorage.getMinigame(minigame) != null) {
-      let all = Object.values(arenaStorage.getArenas(minigame));
-      for (x in all) {
-        for (y in all[x]) {
-          if (avaliableStatus.includes(all[x][y].arena.state) && (all[x][y].arena.players + players.length) <= all[x][y].arena.maxPlayers && all[x][y].arena.mode == mode) {
-            founded.push(all[x][y]);
-          }
+      let reducedArray = Array.from(arenaStorage.getArenas(minigame).values())
+        .reduce((result, current) => {
+          result.push(...current);
+          return result;
+        });
+
+      for (const mini of reducedArray) {
+        if (avaliableStatus.includes(mini.arena.state) && (mini.arena.players + players.length) <= mini.arena.maxPlayers && mini.arena.mode == mode) {
+          founded.push(mini);
         }
       }
       if (founded.length == 0) {
@@ -31,7 +34,7 @@ module.exports = {
             message: `Infraestructure error: We cannot find a game with avaliable slots.`
           }
         });
-    
+
       } else {
         let matchFound = founded.sort(randomize).sort((a, b) => b.arena.players - a.arena.players)[0];
         io.to(getClientIdByName('core-bedwars-' + matchFound.attached)).emit('join-mini', {
@@ -50,11 +53,10 @@ module.exports = {
         if ((matchFound.arena.players + players.length) <= matchFound.arena.maxPlayers) {
           matchFound.arena.players += players.length;
         }
-        if (matchFound.arena.players >= matchFound.arena.maxPlayers) 
-        {
-          matchFound.arena.state="FULL";
+        if (matchFound.arena.players >= matchFound.arena.maxPlayers) {
+          matchFound.arena.state = "FULL";
         }
-      
+
 
       }
       return;

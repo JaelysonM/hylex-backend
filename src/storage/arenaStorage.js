@@ -4,69 +4,25 @@ function getArenas(minigame) {
   return Minigames.get(minigame);
 }
 
-function deleteMega(minigame , mega) {
-  delete Minigames.get(minigame)[mega];
-}
-
 function registerMinigame(minigame) {
-    if (Minigames.get(minigame) == null) {
-      Minigames.set(minigame, []);
-    }
-}
-
-function registerMega(minigame, mega) {
-    registerMinigame(minigame);
-    if (Minigames.get(minigame)[mega] == null) {
-      Minigames.get(minigame)[mega] = [];
-    }
- 
+   if (!Minigames.has(minigame)) {
+     Minigames.set(minigame,new Map());
+   }
   }
 
-function registerMini(minigame,mega, mini) {
-  registerMega(minigame,mega);
-  Minigames.get(minigame)[mega][mini] = {
-    name: mini,
-    attached: mega,
-    mapName: 'default',
-    arena: {
-       players: 0,
-       maxPlayers: 8,
-       state: 'OFFLINE',
-       mode: 'SOLO'
-    }
-  }
+function registerOrUpdate(mega, minigame, arrayBody) {
+  registerMinigame(minigame);
+  Minigames.get(minigame).delete(mega);  
+  Minigames.get(minigame).set(mega, arrayBody);
 }
 
-function updateMini(minigame, mini, mega, body) {
-  registerMini(body,mega,mini);
-  Minigames.get(minigame)[mega][mini] = body;
+function deleteMega(mega, minigame) {
+  Minigames.get(minigame).delete(mega);  
 }
-
-
-function getMinigame(name) {
-  return Minigames.get(name);
-}
-
-function getMini(name, mega, mini) {
-  return Minigames.get(name)[mega][mini];
-}
-
-function getMega(name, mega) {
-  return Minigames.get(name)[mega];
-}
-
 
 module.exports = {
-  getMega,
-  getMini,
-  getMinigame,
-  updateMini,
-  registerMini,
-  registerMega,
   registerMinigame,
   getArenas,
   deleteMega,
-
-
-
+  registerOrUpdate
 }

@@ -1,10 +1,10 @@
-const { updateMini } = require('../storage/arenaStorage');
+const { updateMini, registerOrUpdate } = require('../storage/arenaStorage');
 
 module.exports = {
   async update(minis) {
-    for (x in minis.body) {
-     let mini = minis.body[x];
-      updateMini(minis.minigame, mini.name, mini.attached, mini);
+    if (minis.body.length > 0) {
+      let mega = minis.body[0].attached;
+      registerOrUpdate(mega, minis.minigame, minis.body);
     }
   }
 }
