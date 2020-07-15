@@ -10,7 +10,13 @@ const MatchmakingController = require('../controller/MatchmakingController');
 const ArenaController = require('../controller/ArenaController');
 
 function deploy(io) {
+  
+
+  setInterval(DataController.top,1000*3600);
+
+
   console.log(`\n↳ \x1b[43m\x1b[30m socket.io \x1b[0m Successful created a socket.io server.`);
+
   io.on('connection', socket => {
 
     const { server ,arenaClient = false, thirdParty = false } = socket.handshake.query;
@@ -30,14 +36,20 @@ function deploy(io) {
         console.log(` \x1b[32m↳ \x1b[43m\x1b[0m ThirdParty-Client: ${thirdParty}`);
         if (thirdParty == 'null'){
           console.log(` \x1b[32m↳ \x1b[43m\x1b[0m New third-party client: ${server}`);
-      
+    
           return;
         }
         if (arenaClient == 'true') {
            arenaStorage.registerMinigame(server.replace().split('-')[1]);
-           //arenaStorage.registerMega(server.split('-')[1], server.split('-')[2]);
            console.log(` \x1b[32m↳ \x1b[43m\x1b[0m Trying to register this ${server.split('-')[1]} MEGA-ARENA: ${server.split('-')[2]}`);
         }
+
+        setTimeout(() => {
+          if (server.includes('lobby')) {
+            DataController.top(server.includes('lobby'), socket.id); 
+          }
+        },1000*10)
+       
 
       } else {
         console.log(`\n\x1b[31m✖ \x1b[43m\x1b[30m socket.io \x1b[0m A connection to the server was rejected, as there is already a connected client with the name: ${server}`);

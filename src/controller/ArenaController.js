@@ -1,4 +1,4 @@
-const { updateMini, registerOrUpdate } = require('../storage/arenaStorage');
+const { registerOrUpdate } = require('../storage/arenaStorage');
 
 module.exports = {
   async update(minis) {

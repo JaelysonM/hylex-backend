@@ -1,4 +1,4 @@
-const MercadoPago = require('mercadopago');
+const { configure, preferences } = require('mercadopago');
 const { encrypt } = require('../../services/encryptUtils');
 
 const { getFullUrl } = require('../../services/getFullURL');
@@ -9,7 +9,7 @@ const crypto = require('crypto');
 module.exports = {
   async store(req, res) {
 
-    MercadoPago.configure({
+   configure({
       sandbox: process.env.SANDBOX == 'true' ? true : false,
       access_token: process.env.MP_ACCESS_TOKEN
     })
@@ -40,9 +40,9 @@ module.exports = {
       auto_return: "all",
       payment_methods: {
         excluded_payment_methods: [
-            {
-                id: "pec"
-            }
+          {
+            id: "pec"
+          }
         ],
         installments: 4,
       },
@@ -55,11 +55,11 @@ module.exports = {
     }
 
     try {
-      const preference = await MercadoPago.preferences.create(purchaseOrder);
+      const preference = await preferences.create(purchaseOrder);
       if (type == 'debug') {
         return res.redirect(`${preference.body.init_point}`);
       } else {
-        return res.json({ url: `${preference.body.init_point}`});
+        return res.json({ url: `${preference.body.init_point}` });
       }
 
     } catch (err) { console.log(err); return res.redirect(`${process.env.URL_BAD_REQUEST}`); }

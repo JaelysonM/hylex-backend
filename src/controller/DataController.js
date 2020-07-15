@@ -13,16 +13,15 @@ module.exports = {
         let data = null;
         try {
           data = await models[schemaName].findOne({ uuid });
-        } catch (err) { }
+        } catch (err) { data = await models[schemaName].create({ uuid, name }) }
         if (data == null) data = await models[schemaName].create({ uuid, name })
+
         datas.push({
           schemaName,
           data
         }
         );
       }
-      //console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m ${schemasToRequire.join(', ')} Data loaded | Nickname: \x1b[1m${name}\x1b[0m UUID: \x1b[1m${uuid}\x1b[0m`);
-
       io.to(getClientIdByName(clientName)).emit('data-callback', {
         uuid,
         schemas: datas
@@ -45,20 +44,34 @@ module.exports = {
     }
     // console.log(`\n\x1b[30m✎ \x1b[43m\x1b[30m backend - mongoose \x1b[0m Data saved | UUID: \x1b[1m${uuid}\x1b[0m`);
   },
-  async top() {
+  async top(broadcast, clientId) {
     let log = Date.now();
-    const response = await models['BedWarsData'].find().sort({
+    const wins = await models['BedWarsData'].find().sort({
+      "statistics.wins.global": -1
+    }).limit(10);
+
+    const kills = await models['BedWarsData'].find().sort({
       "statistics.kills.global": -1
     }).limit(10);
 
-    let x = 0;
- 
-    response.forEach(result => {
-      x++;
-      console.log(`${x}º lugar: ${result.name} - ${result.statistics.kills.global}`)
+    const finalKills = await models['BedWarsData'].find().sort({
+      "statistics.finalKills.global": -1
+    }).limit(10);
 
-    })
-    console.log(``);
-    console.log(`Demorou ${(Date.now() - log)/1000} segundos`);
+    const bedsBroken = await models['BedWarsData'].find().sort({
+      "statistics.bedsBroken.global": -1
+    }).limit(10);
+
+    const list = {
+      winsList: wins.map(result => `${result.name} - ${result.statistics.wins.global}`),
+      killsList: kills.map(result => `${result.name} - ${result.statistics.kills.global}`),
+      finalkillsList: finalKills.map(result => `${result.name} - ${result.statistics.finalKills.global}`),
+      bedsbrokenList: bedsBroken.map(result => `${result.name} - ${result.statistics.bedsBroken.global}`),
+    };
+    if (broadcast)
+      io.emit('leaderboard-bedwars', list)
+    else
+      io.to(clientId).emit('leaderboard-bedwars', list)
+
   }
 }

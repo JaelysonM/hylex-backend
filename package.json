@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-<<<<<<< HEAD
     "start": "node --max-old-space-size=8192 --expose-gc --nouse-idle-notification src/server.js"
-=======
-    "start": "node src/server.js"
->>>>>>> ab97b85320b8ad1f5f424fe2cfcf432fa2b13c68
   },
   "keywords": [],
   "author": "Uzm Studio Inc.",

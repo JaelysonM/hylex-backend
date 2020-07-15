@@ -7,7 +7,6 @@ const { decrypt } = require('../../services/encryptUtils');
 
 const connection = require('../../database/connection');
 
-
 const whenClear = ['pending_review_manual', 'pending_contingency']
 
 module.exports = {

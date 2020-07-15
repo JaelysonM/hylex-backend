@@ -15,7 +15,6 @@ const io = require('socket.io')(server);
 const { errors } = require("celebrate");
 
 
-
 /*
  
  MercadoPago build
@@ -90,8 +89,7 @@ setInterval(() => {
 
 setInterval(() => {
   const used = process.memoryUsage().heapUsed / 1024 / 1024;
-  process.stdout.write("\r\x1b[K");
-  process.stdout.write(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+  process.stdout.write(`\r\x1b[KThe script uses approximately ${Math.round(used * 100) / 100} MB`);
 }, 1000);
 
 
