@@ -1,4 +1,4 @@
-# backend-hylex
+# hylex-backend - Código para fins educativos.
 
 en-US:
 
